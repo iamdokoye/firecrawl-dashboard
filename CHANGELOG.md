@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/tekgnosis-net/firecrawl-dashboard/compare/v2.3.2...v2.4.0) (2026-05-12)
+
+
+### Features
+
+* **proxy:** rewrite async-job URLs in responses so SDK pagination stays on the proxy ([9761250](https://github.com/tekgnosis-net/firecrawl-dashboard/commit/97612508c86e25067cd695170768eea9d79c98db))
+
 ## [2.3.2](https://github.com/tekgnosis-net/firecrawl-dashboard/compare/v2.3.1...v2.3.2) (2026-04-17)
 
 
