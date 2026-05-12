@@ -151,6 +151,7 @@ app.get('/api/settings', (req, res) => {
       debugLogBodies:          all.debug_log_bodies === '1',
       proxyTrustForwardedFor:  all.proxy_trust_forwarded_for === '1',
       proxyMaxBodyBytes:       Number(all.proxy_max_body_bytes) || 52428800,
+      proxyPublicUrl:          all.proxy_public_url || '',
 
       // Notification settings (v3)
       notificationsEnabled:             all.notifications_enabled === '1',
@@ -197,6 +198,7 @@ app.post('/api/settings', (req, res) => {
       debugLogBodies:          'debug_log_bodies',
       proxyTrustForwardedFor:  'proxy_trust_forwarded_for',
       proxyMaxBodyBytes:       'proxy_max_body_bytes',
+      proxyPublicUrl:          'proxy_public_url',
 
       // Notification settings (v3)
       notificationsEnabled:            'notifications_enabled',

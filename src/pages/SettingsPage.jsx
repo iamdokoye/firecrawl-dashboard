@@ -457,6 +457,18 @@ curl -X POST ${proxyBaseUrl}/v1/scrape \\
   -d '{"url":"https://example.com","formats":["markdown"]}'`}
             </pre>
           </details>
+          <Field
+            label="Public URL override"
+            hint="Optional. The canonical URL the proxy will rewrite into async-job response bodies (the `url` and `next` fields on crawl/batch responses). Leave empty to derive from each inbound request's host headers — fine for single-ingress setups. Set this when the proxy is reachable via multiple hostnames (e.g. LAN IP + tunnel) and you want emitted URLs to be canonical."
+          >
+            <input
+              type="url"
+              value={form.proxyPublicUrl || ''}
+              onChange={updateText('proxyPublicUrl')}
+              className="apple-input"
+              placeholder="https://firecrawl.example.com (leave empty to auto-detect)"
+            />
+          </Field>
         </Card>
 
         <Card title="Observation">

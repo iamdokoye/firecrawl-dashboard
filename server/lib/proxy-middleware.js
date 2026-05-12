@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import { classifyOperation } from './classifier.js';
 import { parseFirecrawlResponse, extractRequestFields } from './response-parser.js';
 import { forwardToFirecrawl, filterHeaders } from './firecrawl-client.js';
+import { rewriteResponseBody } from './url-rewriter.js';
 import {
   getProxyMaxBodyBytes, getProxyTrustForwardedFor, getDebugLogBodies,
 } from './settings.js';
@@ -182,12 +183,17 @@ export function createProxyMiddleware(db, writeQueue) {
     };
     writeQueue.enqueue(row);
 
+    // Rewrite top-level URLs (`url`, `next`) on async-job envelopes so
+    // SDK pagination + status polling stay on the proxy. Byte-identical
+    // passthrough for every other operation/content-type.
+    const outBody = rewriteResponseBody(db, req, operationType, upstream);
+
     // Forward response to client
     res.status(upstream.status);
     const headers = filterResponseHeaders(upstream.headers);
     for (const [key, value] of Object.entries(headers)) {
       res.setHeader(key, value);
     }
-    res.send(upstream.body);
+    res.send(outBody);
   };
 }

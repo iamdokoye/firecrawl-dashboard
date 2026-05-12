@@ -110,6 +110,16 @@ export function getProxyTrustForwardedFor(db) {
   return getSetting(db, 'proxy_trust_forwarded_for') === '1';
 }
 
+/**
+ * Operator-set canonical public URL the proxy should advertise inside
+ * async-job response bodies (`url` on crawl/batch create, `next` on
+ * status pagination). Empty string means "derive from each inbound
+ * request" — see server/lib/url-rewriter.js.
+ */
+export function getProxyPublicUrl(db) {
+  return getSetting(db, 'proxy_public_url') || '';
+}
+
 export function getDebugLogBodies(db) {
   return getSetting(db, 'debug_log_bodies') === '1';
 }
