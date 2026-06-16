@@ -1,14 +1,15 @@
 services:
   dashboard:
-    image: ghcr.io/tekgnosis-net/firecrawl-dashboard:latest
-    pull_policy: always
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: firecrawl-dashboard
     command: ["node", "server/dashboard.js"]
-    ports:
-      - "3001:3001"
+    expose:
+      - "3001"
     environment:
       - NODE_ENV=production
-      - FIRECRAWL_URL=http://10.0.20.66:3002
+      - FIRECRAWL_URL=${FIRECRAWL_URL}
       - DASHBOARD_PORT=3001
       - DB_PATH=/app/data/dashboard.db
       # Cross-ping to the proxy container via Docker DNS. In standalone
@@ -27,15 +28,16 @@ services:
       start_period: 15s
 
   proxy:
-    image: ghcr.io/tekgnosis-net/firecrawl-dashboard:latest
-    pull_policy: always
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: firecrawl-proxy
     command: ["node", "server/proxy.js"]
-    ports:
-      - "3101:3101"
+    expose:
+      - "3101"
     environment:
       - NODE_ENV=production
-      - FIRECRAWL_URL=http://10.0.20.66:3002
+      - FIRECRAWL_URL=${FIRECRAWL_URL}
       - PROXY_PORT=3101
       - DB_PATH=/app/data/dashboard.db
     volumes:
